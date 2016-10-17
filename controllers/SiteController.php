@@ -19,14 +19,22 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','login','time'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','time'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['login'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ]
                 ],
+//                'denyCallback' => function ($rule, $action) {
+//                    throw new \Exception('You are not allowed to access this page');
+//                }
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -60,7 +68,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $carsouleImgs = configAll('carouselImg');
+        return $this->render('index',['carsouleImgs'=>$carsouleImgs]);
     }
 
     /**
@@ -121,5 +130,20 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionTime(){
+        return date('Y-m-d H:i:s',time());
+    }
+
+    /*
+     * 创建一个action只有管理员角色才可以访问
+     * */
+    public function actionAdmin(){
+        if (\Yii::$app->user->can('onlyAdmin')) {
+            return "我是管理员";
+        }else{
+            return "我不是管理员";
+        }
     }
 }

@@ -1,9 +1,10 @@
 <?php
-
+require_once(__DIR__.'/bootstrap.php');
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'basic',
+    'id' => 'fast_yii',
+    'timeZone'=>'Asia/Shanghai',//配置时区
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
@@ -33,20 +34,42 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning','info'],
                 ],
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        ]
+
     ],
+    'modules' => [
+//        'admin' => [
+//            'class' => 'mdm\admin\Module',
+//        ],
+        'config' => [
+            'class' => 'app\modules\config\Module',
+        ],
+        'user' => [
+            'class' => 'app\modules\user\Module',
+        ],
+        'map' => [
+            'class' => 'app\modules\map\Module',
+        ],
+    ],
+//    'as access' => [
+//        'class' => 'mdm\admin\components\AccessControl',
+//        'allowActions' => [
+//            'admin/*', // add or remove allowed actions to this list
+//        ]
+//    ],
     'params' => $params,
 ];
 

@@ -23,11 +23,15 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-
+<div class="bk"></div>
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => Html::img(logo(),[
+            'width'=>'48px',
+            'height'=>'48px',
+            'style'=>'border-radius:51px;display:inline-block'
+        ]).Html::label(companyName(),null,['style'=>'margin-left:10px']),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -66,13 +70,19 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?=companyName()?> <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?= powered() ?></p>
     </div>
 </footer>
 
 <?php $this->endBody() ?>
+<style>
+    .navbar-brand {
+         padding: 2px 0;
+         margin: 0;
+    }
+</style>
 </body>
 </html>
 <?php $this->endPage() ?>

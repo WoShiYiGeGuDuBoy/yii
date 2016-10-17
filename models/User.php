@@ -59,6 +59,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public static function findByUsername($username)
     {
         foreach (self::$users as $user) {
+            //忽略大小写
             if (strcasecmp($user['username'], $username) === 0) {
                 return new static($user);
             }
